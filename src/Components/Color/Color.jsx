@@ -1,6 +1,12 @@
+{
+  /* Basics */
+}
+import React from "react";
+import PropTypes from "prop-types";
+
 import "./Color.css";
 
-export default function Color({ color }) {
+function Color({ color, onDelete }) {
   return (
     <div
       className="color-card"
@@ -15,7 +21,19 @@ export default function Color({ color }) {
 
       {/* Issue 3: Delete Color - Added a delete button to each color card and passed it a 'onDelete' handler */}
 
-      <button onClick={onDelete}>Delete</button>
+      <button onClick={() => onDelete(color.id)}>Delete</button>
     </div>
   );
 }
+
+Color.propTypes = {
+  color: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    hex: PropTypes.string.isRequired,
+    contrastText: PropTypes.string.isRequired,
+  }).isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
+
+export default Color;
