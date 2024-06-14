@@ -9,3 +9,19 @@
   background: black;
   color: white;
 }
+
+/* Issue #3 Delete Color - Added a new CSS classes for card highlight & confirmation messages based on the given rendering */
+
+.color-card-highlight {
+  display: inline;
+  padding: 2px 6px;
+  background: #c61680;
+  color: white;
+}
+
+.confirmation-dialog {
+  margin: 0px 10px;
+  padding: 5px;
+  background-color: #0390fc;
+  color: white;
+}
