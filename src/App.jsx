@@ -9,11 +9,9 @@ import { useState } from "react";
 import ColorForm from "./Components/ColorForm/ColorForm";
 import { nanoid } from "nanoid";
 
-export function App() {
+function App() {
   // Issue #2 Add Color  - introduce state to manage color adding
   const [colors, setColors] = useState(initialColors);
-
-  // Issue #3 Delete Color - introduce state to manage deletion / confirmation message
 
   // Issue #2 Add Color - add function to handle color adding
   function handleAddColor(newColor) {
@@ -27,6 +25,17 @@ export function App() {
     setColors(colors.filter((color) => color.id !== id));
   }
 
+  // Issue #4 Edit Color - add function to handle color update
+
+  function handleUpdateColor(updatedColor) {
+    console.log("update color", updatedColor);
+    setColors(
+      colors.map((color) =>
+        color.id === updatedColor.id ? updatedColor : color
+      )
+    );
+  }
+
   return (
     <>
       <h1>Theme Creator</h1>
@@ -36,7 +45,12 @@ export function App() {
         <p>No colors present. Please add new colors.</p>
       ) : (
         colors.map((color) => (
-          <Color key={color.id} color={color} onDelete={handleDeleteColor} />
+          <Color
+            key={color.id}
+            color={color}
+            onDelete={handleDeleteColor}
+            onUpdate={handleUpdateColor}
+          />
         ))
       )}
     </>
@@ -44,4 +58,3 @@ export function App() {
 }
 
 export default App;
-// export {handleDeleteColor};
