@@ -1,12 +1,13 @@
 {
   /* Basics */
 }
-import React from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
 
 import "./Color.css";
 
 function Color({ color, onDelete }) {
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  console.log(isConfirmingDelete);
   return (
     <div
       className="color-card"
@@ -20,20 +21,22 @@ function Color({ color, onDelete }) {
       <p>contrast: {color.contrastText}</p>
 
       {/* Issue 3: Delete Color - Added a delete button to each color card and passed it a 'onDelete' handler */}
+      {/* set button onClick to handleConfirmDelete in app.jsx */}
+      <button onClick={() => setIsConfirmingDelete(true)}>Delete</button>
 
-      <button onClick={() => onDelete(color.id)}>Delete</button>
+      {/* Issue #3 Delete Color - add a delete button to each color card */}
+
+      {isConfirmingDelete && (
+        <div className="confirmation-dialog">
+          <p className="color-card-highlight">
+            Are you sure you want to delete?
+          </p>
+          <button onClick={() => onDelete(color.id)}>Yes</button>
+          <button onClick={() => setIsConfirmingDelete(false)}>No</button>
+        </div>
+      )}
     </div>
   );
 }
-
-Color.propTypes = {
-  color: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
-    hex: PropTypes.string.isRequired,
-    contrastText: PropTypes.string.isRequired,
-  }).isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
 
 export default Color;

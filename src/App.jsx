@@ -1,20 +1,19 @@
 import { initialColors } from "./lib/colors";
-import Color from "./Components/Color/Color.jsx";
+import Color from "./Components/Color/Color";
 
 import "./App.css";
 
 // Basics - create unique ID, create Color Form
 
 import { useState } from "react";
-import ColorForm from "./Components/ColorForm/ColorForm.jsx";
+import ColorForm from "./Components/ColorForm/ColorForm";
 import { nanoid } from "nanoid";
 
-function App() {
+export function App() {
   // Issue #2 Add Color  - introduce state to manage color adding
   const [colors, setColors] = useState(initialColors);
 
   // Issue #3 Delete Color - introduce state to manage deletion / confirmation message
-  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   // Issue #2 Add Color - add function to handle color adding
   function handleAddColor(newColor) {
@@ -22,19 +21,10 @@ function App() {
   }
 
   // Issue #3 Delete Color - add function to handle color deletion
+
   function handleDeleteColor(id) {
+    console.log("delete color", id);
     setColors(colors.filter((color) => color.id !== id));
-    setConfirmDeleteId(null);
-  }
-
-  // Issue #3 Delete Color - add function to handle confirmation state
-
-  function handleConfirmDelete(id) {
-    setConfirmDeleteId(id);
-  }
-
-  function handleCancelDelete() {
-    setConfirmDeleteId(null);
   }
 
   return (
@@ -46,31 +36,12 @@ function App() {
         <p>No colors present. Please add new colors.</p>
       ) : (
         colors.map((color) => (
-          <Color
-            key={color.id}
-            color={color}
-            onDelete={() => handleConfirmDelete(color.id)}
-          />
+          <Color key={color.id} color={color} onDelete={handleDeleteColor} />
         ))
-      )}
-      {/* Issue 2 Add Colors - keep mapping function as it is given */}{" "}
-      {colors.map((color) => (
-        <Color key={color.id} color={color} />
-      ))}
-      {/* Issue #3 Delete Color - add a delete button to each color card */}
-      {confirmDeleteId && (
-        <div className="confirmation-dialog">
-          <p className="color-card-highlight">
-            Are you sure you want to delete?
-          </p>
-          <button onClick={() => handleDeleteColor(confirmDeleteId)}>
-            Yes
-          </button>
-          <button onClick={handleCancelDelete}>No</button>
-        </div>
       )}
     </>
   );
 }
 
 export default App;
+// export {handleDeleteColor};
