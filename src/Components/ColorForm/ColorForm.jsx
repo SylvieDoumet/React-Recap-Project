@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ColorForm({
   onSubmitColor,
-  initialData = { role: "some color", hex: "#123456", contrastText: "#ffffff" },
+  initialData = { role: "", hex: "", contrastText: "" },
 
   // Issue #4 Edit Color
   onCancel,
@@ -17,9 +17,14 @@ export default function ColorForm({
 
   function handleSubmit(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    onSubmitColor(data);
+
+    // Issue 1
+    // const formData = new FormData(event.target);
+    // const data = Object.fromEntries(formData);
+    // onSubmitColor(data);
+
+    // Issue 5
+    onSubmitColor({ role, hex, contrastText });
   }
 
   // Issue #4 Edit Color - add ColorInput for hex and contrastText ; Adapting & creating Submit and Cancel button
@@ -32,7 +37,8 @@ export default function ColorForm({
           type="text"
           id="role"
           name="role"
-          defaultValue={role}
+          // defaultValue={role}
+          value={role}
           onChange={(e) => setRole(e.target.value)}
         />
       </label>
@@ -50,9 +56,11 @@ export default function ColorForm({
       </label>
       <br />
       <button type="submit">{submitLabel}</button>
-      <button type="button" onClick={onCancel}>
-        CANCEL
-      </button>
+      {onCancel && (
+        <button type="button" onClick={onCancel}>
+          CANCEL
+        </button>
+      )}
     </form>
   );
 }
