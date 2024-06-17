@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useLocalStorageState } from "use-local-storage-state";
+
+// Issue 5 : Local storage state package
 
 function ColorInput({ id, defaultValue }) {
-  const [inputValue, setInputValue] = useState(defaultValue);
+  const [inputValue, setInputValue] = useLocalStorageState(id, defaultValue);
 
   function handleInputValue(event) {
     setInputValue(event.target.value);
