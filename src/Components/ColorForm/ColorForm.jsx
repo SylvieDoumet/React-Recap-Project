@@ -1,5 +1,6 @@
 import ColorInput from "../ColorInput/ColorInput";
 import "./ColorForm.css";
+import CopyToClipboard from "../CopyToClipboardButton/CopyToClipboardButton";
 import { useState } from "react";
 
 export default function ColorForm({
@@ -12,6 +13,8 @@ export default function ColorForm({
 }) {
   // Issue #4 Edit Color - add useState for initialData
   const [role, setRole] = useState(initialData.role);
+
+  // Values not read furthermore, why ?
   const [hex, setHex] = useState(initialData.hex);
   const [contrastText, setContrastText] = useState(initialData.contrastText);
 
@@ -47,6 +50,7 @@ export default function ColorForm({
         Hex
         <br />
         <ColorInput id="hex" defaultValue={hex} />
+        <CopyToClipboard text={hex} />
       </label>
       <br />
       <label htmlFor="contrastText">

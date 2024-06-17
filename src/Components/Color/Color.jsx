@@ -12,7 +12,6 @@ function Color({ color, onDelete, onUpdate }) {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  console.log(isConfirmingDelete);
   return (
     <div
       className="color-card"

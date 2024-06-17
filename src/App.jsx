@@ -7,17 +7,17 @@ import "./App.css";
 // import { useState } from "react";
 import ColorForm from "./Components/ColorForm/ColorForm";
 import { nanoid } from "nanoid";
+import { useLocalStorageState } from "use-local-storage-state";
 
 function App() {
   // Issue #2 Add Color  - introduce state to manage color adding
   // const [colors, setColors] = useState(initialColors);
 
-  const [colors, setColors] = useLocalStorageState("colors", {
-    defaultValue: [
-      // empty value or self setted one - to test out
-      // {id:1, role:"Primary, hex: "#FF0000", contrastText: "#FFFFFF"},
-    ],
-  });
+  const [colors, setColors] = useLocalStorageState("colors", []);
+  const [editColorId, setEditColorId] = useLocalStorageState(
+    "editColorId",
+    null
+  );
 
   // Issue #2 Add Color - add function to handle color adding
   function handleAddColor(newColor) {
@@ -27,7 +27,6 @@ function App() {
   // Issue #3 Delete Color - add function to handle color deletion
 
   function handleDeleteColor(id) {
-    console.log("delete color", id);
     setColors(colors.filter((color) => color.id !== id));
   }
 
@@ -40,6 +39,9 @@ function App() {
         color.id === updatedColor.id ? updatedColor : color
       )
     );
+  }
+  function handleEditColor(colorId) {
+    setEditColorId(colorId);
   }
 
   return (
@@ -56,10 +58,12 @@ function App() {
             color={color}
             onDelete={handleDeleteColor}
             onUpdate={handleUpdateColor}
+            onEdit={handleEditColor}
+            isEditing={editColorId === color.id}
           />
         ))
       )}
-      <ColorForm onSubmitColor={handleAddColor} />
+      <ColorForm onAddColor={handleAddColor} />
     </div>
   );
 }
