@@ -1,7 +1,7 @@
 {
   /* Basics */
 }
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Color.css";
 import ColorForm from "../ColorForm/ColorForm";
 
@@ -11,6 +11,25 @@ import ColorForm from "../ColorForm/ColorForm";
 function Color({ color, onDelete, onUpdate }) {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [contrastScore, setContrastScore] = useState(null);
+
+async function checkContrast () {
+  const response = await fetch("https://www.aremycolorsaccessible.com/api/are-they"),
+      {
+        method: "POST",
+        body: JSON.stringify({ color: color.hex, contrast: color.contrastText }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    const data = await response.json();
+    setContrastScore(data.score);
+  };
+
+  useEffect(() => {
+    checkContrast();
+  }, [color.hex, color.contrastText]);
+
 
   return (
     <div
@@ -61,6 +80,5 @@ function Color({ color, onDelete, onUpdate }) {
       )}
     </div>
   );
-}
 
 export default Color;
