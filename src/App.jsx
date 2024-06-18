@@ -63,7 +63,13 @@ function App() {
           />
         ))
       )}
-      <ColorForm onAddColor={handleAddColor} />
+      {colors.map((color, index) => (
+        <ColorForm
+          key={index}
+          initialData={color}
+          onAddColor={handleAddColor}
+        />
+      ))}
     </div>
   );
 }

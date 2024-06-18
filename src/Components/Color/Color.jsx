@@ -11,24 +11,26 @@ import ColorForm from "../ColorForm/ColorForm";
 export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [contrastScore, setContrastScore] = useState(null);
-
-async function checkContrast () {
-  const response = await fetch("https://www.aremycolorsaccessible.com/api/are-they", {
-        method: "POST",
-        body: JSON.stringify({ color: hex, contrast: contrastText }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    const data = await response.json();
-    setContrastScore(data.score);
-  };
+  const contrastScore = useState(null);
 
   useEffect(() => {
-    checkContrast();
-  }, [hex, contrastText]);
+    async function checkContrast() {
+      const response = await fetch(
+        "https://www.aremycolorsaccessible.com/api/are-they",
+        {
+          method: "POST",
+          body: JSON.stringify({ color: hex, contrast: contrastText }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      contrastScore(data.score);
+    }
 
+    checkContrast();
+  }, [hex, contrastText, contrastScore]);
 
   return (
     <div
@@ -79,4 +81,4 @@ async function checkContrast () {
       )}
     </div>
   );
-
+}
