@@ -4,10 +4,10 @@ import "./App.css";
 
 // Basics - create unique ID, create Color Form
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ColorForm from "./Components/ColorForm/ColorForm";
 import { nanoid } from "nanoid";
-import { useLocalStorageState } from "use-local-storage-state";
+// import { useLocalStorageState } from "use-local-storage-state";
 
 // Issue #8 Theme - import initialThemes
 import { initialThemes } from "./Components/Themes/InitialThemes";
@@ -24,8 +24,16 @@ export function App() {
 
   // Issue #8 Theme - introduce state to manage themes
 
-  const [themes, setThemes] = useLocalStorageState("themes", initialThemes);
+  const [themes, setThemes] = useState(() => {
+    const savedThemes = localStorage.getItem("themes");
+    return savedThemes ? JSON.parse(savedThemes) : initialThemes;
+  });
+
   const [currentThemeId, setCurrentThemeId] = useState(themes[0].id);
+
+  useEffect(() => {
+    localStorage.setItem("themes", JSON.stringify(themes));
+  }, [themes]);
 
   // // Issue #2 Add Color - add function to handle color adding
   // function handleAddColor(newColor) {
@@ -91,7 +99,7 @@ export function App() {
             colors: theme.colors.filter((color) => color.id !== id),
           };
         }
-        return;
+        return theme;
       })
     );
   }
@@ -162,7 +170,7 @@ export function App() {
           </option>
         ))}
       </select>
-      {currentTheme.colots.map((color, index) => (
+      {currentTheme.colors.map((color, index) => (
         <Color
           key={color.id}
           color={color}
