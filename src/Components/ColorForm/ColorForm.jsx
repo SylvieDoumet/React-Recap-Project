@@ -49,14 +49,22 @@ export default function ColorForm({
       <label htmlFor="hex">
         Hex
         <br />
-        <ColorInput id="hex" defaultValue={hex} />
+        <ColorInput
+          id="hex"
+          value={hex}
+          onChange={(e) => setHex(e.target.value)}
+        />
         <CopyToClipboard text={hex} />
       </label>
       <br />
       <label htmlFor="contrastText">
         Contrast Text
         <br />
-        <ColorInput id="contrastText" defaultValue={contrastText} />
+        <ColorInput
+          id="contrastText"
+          value={contrastText}
+          onChange={(e) => setContrastText(e.target.value)}
+        />
       </label>
       <br />
       <button type="submit">{submitLabel}</button>

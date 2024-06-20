@@ -1,7 +1,7 @@
 // import { initialColors } from "./lib/colors";
 import Color from "./Components/Color/Color";
 import "./App.css";
-
+import "./ColorInput.css";
 // Basics - create unique ID, create Color Form
 
 import { useState, useEffect } from "react";
@@ -170,17 +170,22 @@ export function App() {
           </option>
         ))}
       </select>
-      {currentTheme.colors.map((color, index) => (
+      {currentTheme.colors.map((color) => (
         <Color
           key={color.id}
-          color={color}
+          id={color.id}
+          hex={color.hex}
+          role={color.role}
+          contrastText={color.contrastText}
           onDelete={handleDeleteColor}
           onUpdate={handleUpdateColor}
-          isEditing={false}
         />
       ))}
-
-      <ColorForm onAddColor={handleAddColor} />
+      <div className="colorInputSection">
+        <ColorForm onAddColor={handleAddColor} />
+      </div>
     </div>
   );
 }
+
+export default App;

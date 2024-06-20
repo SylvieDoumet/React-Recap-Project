@@ -11,7 +11,7 @@ import ColorForm from "../ColorForm/ColorForm";
 export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const contrastScore = useState(null);
+  const [contrastScore, setContrastScore] = useState(null);
 
   useEffect(() => {
     async function checkContrast() {
@@ -26,15 +26,16 @@ export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
         }
       );
       const data = await response.json();
-      contrastScore(data.score);
+      setContrastScore(data.score);
     }
 
     checkContrast();
-  }, [hex, contrastText, contrastScore]);
+  }, [hex, contrastText]);
 
   return (
     <div
       className="color-card"
+      key={id}
       style={{
         background: hex,
         color: contrastText,
@@ -42,7 +43,8 @@ export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
     >
       <h3 className="color-card-headline">{hex}</h3>
       <h4>{role}</h4>
-      <p>contrast: {contrastText}</p>
+      <p>Contrast: {contrastText}</p>
+      <p>Contrast Score: {contrastScore}</p>
       {/* Issue 3: Delete Color - Step 1 Add a DELETE button to each color card and passed it a isConfirmingDelete function which opens up a confirmation window with a 
       message (Are you sure you want to delete?) and two buttons (Yes, No) */}
       {/* Button - DELETE : Opens up the cofirmation windows to choose between the YES, I want to delete. and NO, I don't want to delete - button   */}
@@ -69,16 +71,17 @@ export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
       {isEditing && (
         <div className="editing-dialog">
           <ColorForm
-            initialData={Color}
+            initialData={{ hex, role, contrastText }}
             onSubmitColor={(updatetColor) => {
-              onUpdate({ ...Color, ...updatetColor });
+              onUpdate({ id, ...updatetColor });
               setIsEditing(false);
             }}
             onCancel={() => setIsEditing(false)}
-            submitLabel="SAVE"
+            submitLabel="Save"
           />
         </div>
       )}
     </div>
   );
 }
+export default Color;

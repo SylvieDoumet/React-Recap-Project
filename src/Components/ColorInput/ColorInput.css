@@ -1,0 +1,6 @@
+.colorInputSection {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  gap: 5px;
+  width: calc(100% - 5px);
+}
