@@ -1,7 +1,7 @@
 // import { initialColors } from "./lib/colors";
 import Color from "./Components/Color/Color";
 import "./App.css";
-import "./ColorInput.css";
+import "./Components/ColorInput/ColorInput.css";
 // Basics - create unique ID, create Color Form
 
 import { useState, useEffect } from "react";
