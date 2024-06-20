@@ -1,9 +1,10 @@
 {
   /* Basics */
 }
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Color.css";
 import ColorForm from "../ColorForm/ColorForm";
+import CopyToClipboardButton from "../CopyToClipboardButton/CopyToClipboardButton";
 
 // Issue 3 : Delete Color - Add Confirmation Deletion - State (initially set to false)
 // Issue 4: Edit Color - Add Edit - State (initially set to false)
@@ -27,7 +28,11 @@ export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
       );
       const data = await response.json();
       setContrastScore(data.score);
+    } catch (error) {
+      console.error('Failed to fetch contrast score:', error.message);
     }
+  }
+
 
     checkContrast();
   }, [hex, contrastText]);
@@ -48,6 +53,7 @@ export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
       {/* Issue 3: Delete Color - Step 1 Add a DELETE button to each color card and passed it a isConfirmingDelete function which opens up a confirmation window with a 
       message (Are you sure you want to delete?) and two buttons (Yes, No) */}
       {/* Button - DELETE : Opens up the cofirmation windows to choose between the YES, I want to delete. and NO, I don't want to delete - button   */}
+     <CopyToClipboardButton textToCopy={hex} />
       <button onClick={() => setIsConfirmingDelete(true)}>Delete</button>
       {/* Issue 4: Edit Color - Step 1 Add an EDIT button to each color card and passed it a isEditing function which opens up a form to edit the color card */}
       {/* Button - EDIT : Opens up the form to edit the color card */}
@@ -73,7 +79,7 @@ export function Color({ id, hex, role, contrastText, onDelete, onUpdate }) {
           <ColorForm
             initialData={{ hex, role, contrastText }}
             onSubmitColor={(updatetColor) => {
-              onUpdate({ id, ...updatetColor });
+              onUpdate({ ...updatetColor, id });
               setIsEditing(false);
             }}
             onCancel={() => setIsEditing(false)}

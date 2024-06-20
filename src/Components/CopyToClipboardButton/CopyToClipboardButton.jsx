@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 function CopyToClipboardButton({ textToCopy }) {
   const [copied, setCopied] = useState(false);
 
